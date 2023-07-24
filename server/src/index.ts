@@ -1,11 +1,14 @@
 import express from 'express';
-import RequestProps from './models/RequestProps';
+import authRoutes from './routes/authRoutes';
 
 const app = express();
 const port = 3000;
 
-app.get('/', ({ req, res }: RequestProps) => {
-  res.send('Hello server');
+app.use(express.json());
+app.use('/auth', authRoutes);
+
+app.get('/', (req, res) => {
+  res.send('Oi')
 });
 
 app.listen(port, () => {
