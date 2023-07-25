@@ -1,5 +1,5 @@
 interface UserProps {
-  id: number;
+  id?: number;
   email: string;
   name: string;
   password: string;
