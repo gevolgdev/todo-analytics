@@ -6,5 +6,4 @@ export {
   Home,
   Login,
   Register,
-  
 };
