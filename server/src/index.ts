@@ -1,6 +1,5 @@
 import express from 'express';
 import authRoutes from './routes/authRoutes';
-import { usersDB } from './controllers/authController';
 import cors from 'cors';
 
 const app = express();
