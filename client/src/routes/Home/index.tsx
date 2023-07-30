@@ -1,51 +1,31 @@
-import { useSelector } from 'react-redux';
-import { RootState } from '../../lib/redux/reducer';
-import api from '../../service';
-import { useEffect, useState } from 'react';
-import { TaskProps } from '../../@types/types';
-import { Container } from './style';
-// import { GrFormCheckmark } from 'react-icons/gr';
+import getTasks from '../../utils/Api/getTasks';
+import { Container, Image } from './style';
+import { Header } from '../../components/Home';
+import Task from '../../components/Task';
+import IMG from '../../assets/img-todo.svg';
 
 const Home = () => {
 
-  const { id, token } = useSelector(( state: RootState ) => state.userSlice);
-
-  const INITIAL_STATE: TaskProps[] = [{ id: 0, user_id: 0, title: '', description: '', date: '', done: ''}];
-  const [ tasks, setTasks ] = useState<TaskProps[]>(INITIAL_STATE);
-
-  useEffect(() => {
-    api.get('/auth/tasks', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        user_id: id
-      }
-    })
-      .then (response =>{
-        console.log(response.data.tasks[0]);
-        setTasks(response.data.tasks[0]);
-      })
-      .catch (err => {
-        console.log(err);
-        setTasks(err)
-      });
-  }, []);
-
-  const name: string = useSelector((state: RootState) => state.userSlice.name);
-
+  const { tasks } = getTasks();
+  const tasksList = Array.isArray(tasks) ? tasks : [];
 
   return (
-    <Container>
-      <h1>Bem-vindo(a) {name}</h1>
-      <div className='tasks'>
-        {tasks.map(task => (
-          <div className='task' key={task.id}>
-            {task.title}
-          </div>
-        ))}
-      </div>
-    </Container>
+    <>
+      <Image>
+        <img src={IMG}/>
+      </Image>
+
+      <Header/>
+
+      <Container>
+        <h1>Suas tarefas:</h1>
+        <div className='tasks'>
+          {tasksList.map((task, index) => (
+            <Task key={ task.id } { ...task } index={ index }/>
+          ))}
+        </div>
+      </Container>
+    </>
   );
 };
 
