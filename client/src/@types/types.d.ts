@@ -8,8 +8,17 @@ export interface UserProps {
 };
 
 export interface TaskProps {
-  id: number;
-  user_id: number;
+  id?: number;
+  user_id?: number;
+  title: string;
+  description: string;
+  date: string;
+  done: string;
+  index?: number;
+};
+
+export interface NewTaskProps {
+  id?: number;
   title: string;
   description: string;
   date: string;
