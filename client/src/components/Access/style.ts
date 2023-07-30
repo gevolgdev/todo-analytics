@@ -6,7 +6,7 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 4rem 3rem 2rem;
+  padding: 2rem;
 
   img {
     width: 140px;
@@ -14,7 +14,8 @@ export const Container = styled.div`
   }
   
   h1 {
-    margin-right: auto;
+    font-size: 2.5rem;
+    margin: 0 auto 3rem 0;
     color: white;
   }
 
@@ -22,7 +23,7 @@ export const Container = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
 
     .input {
       display: flex;
@@ -63,7 +64,8 @@ export const Container = styled.div`
 `;
 
 export const Links = styled(Link)`
-  margin-top: 1rem;
+  font-size: 0.8rem;
+  margin: 1rem auto 0 0;
   text-decoration: none;
   color: #878F9F;
 

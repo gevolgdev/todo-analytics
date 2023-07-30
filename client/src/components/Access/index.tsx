@@ -1,5 +1,5 @@
 import saveInfos from '../../utils/saveInfos'
-import authUtils from '../../utils/authUtils';
+import useAuth from '../../hooks/useAuth';
 import { useNavigate } from "react-router-dom";
 import { Container, Links } from './style';
 
@@ -11,18 +11,14 @@ interface AccessProps {
 const Access: React.FC<AccessProps> = ({ isLogin = false, isRegister = false }) => {
 
   const { infos, saving, clearInputs } = saveInfos();
-  const { login, register } = authUtils();
+  const { login, register } = useAuth();
   const navigate = useNavigate();
 
-  let access: string = String(isLogin && 'Login' || isRegister && 'Registrar');
+  let access: string = String(isLogin && 'Entrar' || isRegister && 'Registrar');
 
   const handleClick = () => {
-    if(isLogin) {
-      login(infos.email, infos.password);
-    };
-    if(isRegister) {
-      register(infos.name, infos.email, infos.password);
-    };
+    isLogin && login(infos.email, infos.password);
+    isRegister && register(infos.name, infos.email, infos.password);
 
     clearInputs();
     navigate('/');
@@ -53,8 +49,8 @@ const Access: React.FC<AccessProps> = ({ isLogin = false, isRegister = false }) 
         </div>
       </div>
 
-      {isLogin && <Links to={'/register'}>Não tem uma conta? <strong>crie uma!</strong></Links>}
-      {isRegister && <Links to={'/login'}>Já tem uma conta? <strong>entre aqui!</strong></Links>}
+      {isLogin && <Links to={'/register'}>Não tem uma conta? <strong>Crie uma!</strong></Links>}
+      {isRegister && <Links to={'/login'}>Já tem uma conta? <strong>Entre aqui!</strong></Links>}
 
       <button onClick={ handleClick } className='enter'>{ access }</button>
     </Container>
