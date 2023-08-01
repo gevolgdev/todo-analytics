@@ -1,13 +1,23 @@
-import getTasks from '../../utils/Api/getTasks';
+import { useEffect } from 'react';
 import { Container, Image } from './style';
 import { Header } from '../../components/Home';
-import Task from '../../components/Task';
 import IMG from '../../assets/img-todo.svg';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../lib/redux/reducer';
+import Task from '../../components/Task';
+import { useDispatch } from 'react-redux';
+import fetchUserTasks from '../../utils/Api/fetchUserTasks';
 
 const Home = () => {
 
-  const { tasks } = getTasks();
-  const tasksList = Array.isArray(tasks) ? tasks : [];
+  const { id, token } = useSelector(( state: RootState ) => state.userSlice);
+  const Dispatch = useDispatch();
+
+  useEffect( () => {
+    fetchUserTasks({ id, token }, Dispatch);
+  }, []);
+
+  const tasksList = useSelector((state: RootState) => state.tasksSlice);
 
   return (
     <>
@@ -18,10 +28,10 @@ const Home = () => {
       <Header/>
 
       <Container>
-        <h1>Suas tarefas:</h1>
+        {/* <h1>Suas tarefas:</h1> */}
         <div className='tasks'>
           {tasksList.map((task, index) => (
-            <Task key={ task.id } { ...task } index={ index }/>
+            <Task key={ task.id } { ...task } index={ index } />
           ))}
         </div>
       </Container>
