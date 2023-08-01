@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import UserProps from "../models/user";
 import { hashPassword, comparePasswords, generateToken } from "../services/authService";
 import db from '../database/db';
+import { PoolConnection } from 'mysql2';
 
 export const register = async (req: Request, res: Response): Promise<void> => {
   const { name, email, password } = req.body;
@@ -9,9 +10,15 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 
   try {
     const insertQuery = 'INSERT INTO `users` (`name`, `email`, `password`) VALUES (?, ?, ?)';
-    await db.query(insertQuery, [name, email, hashedPassword]);
+    const [ insertResult ] = await db.query(insertQuery, [name, email, hashedPassword]);
+
+    if (!('insertId' in insertResult)) {
+      throw new Error('Erro ao obter o ID do usuário inserido.');
+    }
+    const user_id = insertResult.insertId;
 
     const newUser: UserProps = {
+      id: user_id,
       name: name,
       email: email,
       password: hashedPassword,
@@ -31,7 +38,7 @@ export const login = async (req: Request, res: Response): Promise<any> => {
 
   try {
     const selectQuery = 'SELECT * from `users` WHERE `email` = ?';
-    const [rows] = await db.query(selectQuery, [email]);
+    const [ rows ] = await db.query(selectQuery, [email]);
 
     if (!Array.isArray(rows) || rows.length === 0) {
       return res.status(404).json({ message: 'Usuário não encontrado' });
