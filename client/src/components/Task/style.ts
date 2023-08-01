@@ -9,7 +9,7 @@ const Container = styled.div<ContainerProps>`
   flex-direction: column;
   background: var(--gray-color);
   padding: 1.5rem;
-  border: ${({ isDone }) => isDone === !true && 'solid 1px var(--secondary-color)'};
+  border: ${({ isDone }) => isDone ? 'solid 1px var(--gray-color)' : 'solid 1px var(--secondary-color)'};
   border-radius: 8px;
   opacity: ${({ isDone }) => isDone ? '30%' : 'none'};
   gap: 0.6rem;
@@ -18,16 +18,19 @@ const Container = styled.div<ContainerProps>`
     display: flex;
     flex-direction: row;
     align-items: center;
-    /* margin-bottom: 10px; */
     gap: 1rem;
 
     button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 18px;
       height: 18px;
       border: solid 1px white;
       border-radius: 3px;
       background: transparent;
       color: white;
+      font-size: 1rem;
     }
     
     .title {
@@ -68,6 +71,7 @@ const Container = styled.div<ContainerProps>`
       padding: 0.5rem 0;
       width: 80px;
       border-radius: 7px;
+
     }
     .edit {
       color: var(--background-color);
