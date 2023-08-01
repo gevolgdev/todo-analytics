@@ -23,7 +23,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     margin: 0 auto;
-    max-width: 400px;
+    max-width: 800px;
     min-height: 100vh;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* Internet Explorer 10+ */
