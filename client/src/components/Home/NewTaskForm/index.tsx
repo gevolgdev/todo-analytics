@@ -1,37 +1,35 @@
 import React, { ChangeEvent, SetStateAction, useState } from 'react';
 import { Buttons, Container, Content } from './style';
-import addNewTask from '../../../utils/Api/addNewTask';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../lib/redux/reducer';
-import { NewTaskProps } from '../../../@types/types';
 import { FaRegLightbulb } from 'react-icons/fa';
+import { addTaskReducer } from '../../../lib/redux/slices/tasksSlice';
+import { NewTaskProps } from '../../../@types/types';
+import fetchUserTasks from '../../../utils/Api/fetchUserTasks';
 
-interface NewTaskFormProps {
-  setOpenForm: React.Dispatch<SetStateAction<boolean>>
+interface TaskFormProps {
+  setOpenForm: React.Dispatch<SetStateAction<boolean>>;
 };
 
-const NewTaskForm: React.FC<NewTaskFormProps> = ({ setOpenForm }) => {
+const NewTaskForm: React.FC<TaskFormProps> = ({ setOpenForm }) => {
 
   const { id, token } = useSelector(( state: RootState ) => state.userSlice);
   const date: string = new Date().toLocaleDateString();
-
+  const Dispatch = useDispatch();
 
   const INITIAL_STATE = { id: id, title: '', description: '', date: date, done: '0' };
   const [newTask, setNewTask] = useState<NewTaskProps>(INITIAL_STATE);
 
   const saving = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    setNewTask( prev => ({...prev, [id]: value}) );
+    setNewTask(prev => ({...prev, [id]: value}));
   };
 
-  const AddNewTasks = async () => {
-    try {
-      await addNewTask(newTask, token);
-      window.location.reload();
-    }
-    catch (err) {
-      console.log('Error ', err);
-    } 
+  const AddNewTasks = () => {
+    console.log( newTask );
+    Dispatch(addTaskReducer({ newTask, token }));
+    fetchUserTasks({ id, token }, Dispatch);
+    setOpenForm(false);
   };
   
 
@@ -55,7 +53,9 @@ const NewTaskForm: React.FC<NewTaskFormProps> = ({ setOpenForm }) => {
         </div>
 
         <Buttons>
-          <button className='add' onClick={ AddNewTasks }>Adicionar</button>
+          <button className='add' onClick={ AddNewTasks }>
+            Adicionar
+          </button>
           <button className='cancel' onClick={ () => setOpenForm(false) }>Cancelar</button>
         </Buttons>
       </Content>
