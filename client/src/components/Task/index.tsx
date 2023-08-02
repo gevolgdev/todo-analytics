@@ -11,26 +11,19 @@ const Task: React.FC<TaskProps> = ({ title, description, date, done }) => {
 
   const Dispatch = useDispatch();
 
-  let isDone: boolean = false;
-  const setIsDone = () => {
-    if(done == '0') return isDone = false;
-    if(done == '1') return isDone = true;
-  };
-  setIsDone();
-
   const { id, token } = useSelector(( state: RootState ) => state.userSlice);
 
   const completedTask = () => {
-    const doneTask: string = String( done == '0' && '1' || done == '1' && '0');
-    Dispatch(completeTaskReducer({ doneTask, id , title, description, token} ));
+    Dispatch(completeTaskReducer({ id , title, description, token} ));
+    console.log('Task: ', done);
   };
 
   return (
-    <Container isDone={ isDone }>
-      <span className='date'><BsCalendarDateFill/> { date }</span>
+    <Container done={ done }>
+      <span className='date'><BsCalendarDateFill/> { date } - { done }</span>
       <header>
         <button onClick={ completedTask }>
-          { isDone && <BsCheck/> }
+          { done == '1' && <BsCheck/> }
         </button>
         <h2 className='title'>{ title }</h2>
       </header>

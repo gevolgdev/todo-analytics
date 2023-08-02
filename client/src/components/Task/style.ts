@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 interface ContainerProps {
-  isDone: boolean;
+  done: string;
 };
 
 const Container = styled.div<ContainerProps>`
@@ -9,9 +9,9 @@ const Container = styled.div<ContainerProps>`
   flex-direction: column;
   background: var(--gray-color);
   padding: 1.5rem;
-  border: ${({ isDone }) => isDone ? 'solid 1px var(--gray-color)' : 'solid 1px var(--secondary-color)'};
+  border: ${({ done }) => (done == '0' && 'solid 1px var(--secondary-color)') || (done == '1' && 'solid 1px var(--gray-color)')};
   border-radius: 8px;
-  opacity: ${({ isDone }) => isDone ? '30%' : 'none'};
+  opacity: ${({ done }) => done == '1' && '30%' || done == '0' && 'none'};
   gap: 0.6rem;
 
   header {
@@ -24,7 +24,7 @@ const Container = styled.div<ContainerProps>`
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 18px;
+      min-width: 18px;
       height: 18px;
       border: solid 1px white;
       border-radius: 3px;
@@ -34,7 +34,7 @@ const Container = styled.div<ContainerProps>`
     }
     
     .title {
-      text-decoration: ${({ isDone }) => isDone ? 'line-through' : 'none'};
+      text-decoration: ${({ done }) => done == '1' && 'line-through' || done == '0' && 'none'};
       font-family: var(--secondary-font);
       font-size: 1.8rem;
       color: white;
@@ -84,6 +84,6 @@ const Container = styled.div<ContainerProps>`
   }
 `;
 
-const shouldForwardProp = (prop: string) => prop !== "isDone";
+const shouldForwardProp = (prop: string) => prop !== "done";
 
 export default styled(Container).withConfig({ shouldForwardProp })``;
