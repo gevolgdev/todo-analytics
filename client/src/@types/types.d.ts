@@ -8,7 +8,7 @@ export interface UserProps {
 };
 
 export interface TaskProps {
-  id?: number;
+  id: number;
   user_id?: number;
   title: string;
   description: string;
@@ -23,4 +23,29 @@ export interface NewTaskProps {
   description: string;
   date: string;
   done: string;
+};
+
+export interface completeTaskProps {
+  title: string;
+  id: number | undefined;
+  description: string;
+  token: string;
+};
+
+export interface addTaskProps {
+  newTask: TaskProps;
+  token: string;
+};
+
+export interface EditTaskProps {
+  title: string;
+  description: string;
+  user_id: number;
+  task_id: number;
+  token: string;
+};
+
+export interface DeleteTaskProps {
+  task_id: number;
+  token: string;
 };
