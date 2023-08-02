@@ -1,19 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { TaskProps } from "../../../@types/types";
+import { DeleteTaskProps, EditTaskProps, TaskProps, addTaskProps, completeTaskProps } from "../../../@types/types";
 import completeTask from "../../../utils/Api/completeTask";
 import addNewTask from "../../../utils/Api/addNewTask";
-
-interface completeTaskProps {
-  title: string;
-  id: number | undefined;
-  description: string;
-  token: string;
-};
-
-interface addTaskProps {
-  newTask: TaskProps;
-  token: string;
-};
+import editTasks from "../../../utils/Api/editTask";
+import deleteTask from "../../../utils/Api/deleteTask";
 
 const initialState: TaskProps[] = [
   {
@@ -58,11 +48,37 @@ const tasksSlice = createSlice({
 
       return state;
     },
+    editTaskReducer: (state, { payload }: PayloadAction<EditTaskProps>) => {
+      const { title, description, user_id, task_id, token } = payload;
+      state.map(item => {
+        if(item.id === task_id && item.user_id === user_id) {
+          item.title = title;
+          item.description = description;
+        };
 
+        return item;
+      });
+
+      editTasks({ title, description, user_id, task_id }, token);
+    },
+    deleteTaskReducer: (state, { payload }: PayloadAction<DeleteTaskProps>) => {
+      const { task_id, token } = payload;
+      const index = state.findIndex(item => item.id === task_id);
+      state.map(item => {
+        if(item.id === task_id) {
+          state.splice(index, 1);
+        };
+        return item;
+      });
+      
+      deleteTask({ task_id }, token);
+    },
   }
 });
 
 export const { fetchTasks } = tasksSlice.actions;
 export const { addTaskReducer } = tasksSlice.actions;
 export const { completeTaskReducer } = tasksSlice.actions;
+export const { editTaskReducer } = tasksSlice.actions;
+export const { deleteTaskReducer } = tasksSlice.actions;
 export default tasksSlice.reducer;
