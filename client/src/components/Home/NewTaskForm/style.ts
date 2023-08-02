@@ -67,6 +67,7 @@ export const Buttons = styled.div`
     flex: 1;
     border-radius: 15px;
     font-size: 1rem;
+    padding: 1rem 0;
   }
   .add {
     background: #22c55e;
