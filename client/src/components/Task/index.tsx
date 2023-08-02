@@ -1,26 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TaskProps } from '../../@types/types';
 import Container from './style';
 import { BsCalendarDateFill, BsCheck } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../lib/redux/reducer';
-import { completeTaskReducer } from '../../lib/redux/slices/tasksSlice';
+import { completeTaskReducer, deleteTaskReducer } from '../../lib/redux/slices/tasksSlice';
+import EditTaskForm from './EditTaskForm';
 
 
-const Task: React.FC<TaskProps> = ({ title, description, date, done }) => {
+const Task: React.FC<TaskProps> = ({ title, description, date, done, id: task_id }) => {
 
+  const [openForm, setOpenForm] = useState<boolean>(false);
   const Dispatch = useDispatch();
-
   const { id, token } = useSelector(( state: RootState ) => state.userSlice);
 
   const completedTask = () => {
     Dispatch(completeTaskReducer({ id , title, description, token} ));
-    console.log('Task: ', done);
+  };
+
+  const deletedTask = () => {
+    Dispatch(deleteTaskReducer({ task_id, token } ));
   };
 
   return (
     <Container done={ done }>
-      <span className='date'><BsCalendarDateFill/> { date } - { done }</span>
+      {openForm && <EditTaskForm title={title} description={description} setOpenForm={setOpenForm} task_id={task_id}/>}
+      <span className='date'><BsCalendarDateFill/> { date }</span>
       <header>
         <button onClick={ completedTask }>
           { done == '1' && <BsCheck/> }
@@ -30,8 +35,8 @@ const Task: React.FC<TaskProps> = ({ title, description, date, done }) => {
       <p className='desc'><span>Detalhe:</span> { description }</p>
 
       <div className='buttons'>
-        <button className='edit'>Editar</button>
-        <button className='del'>Deletar</button>
+        <button onClick={ () => setOpenForm( done == '0' && true ) } className='edit'>Editar</button>
+        <button onClick={ () => { done == '0' && deletedTask() } } className='del'>Deletar</button>
       </div>
     </Container>
   );
