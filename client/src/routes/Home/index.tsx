@@ -12,12 +12,11 @@ const Home = () => {
 
   const { id, token } = useSelector(( state: RootState ) => state.userSlice);
   const Dispatch = useDispatch();
+  const tasksList = useSelector((state: RootState) => state.tasksSlice);
 
   useEffect( () => {
     fetchUserTasks({ id, token }, Dispatch);
   }, []);
-
-  const tasksList = useSelector((state: RootState) => state.tasksSlice);
 
   return (
     <>
@@ -30,9 +29,7 @@ const Home = () => {
       <Container>
         {/* <h1>Suas tarefas:</h1> */}
         <div className='tasks'>
-          {tasksList.map((task, index) => (
-            <Task key={ task.id } { ...task } index={ index } />
-          ))}
+          {tasksList.map(task => <Task key={ task.id } { ...task }/>)}
         </div>
       </Container>
     </>
