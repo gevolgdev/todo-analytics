@@ -1,12 +1,17 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { TaskProps } from "../../../@types/types";
 import completeTask from "../../../utils/Api/completeTask";
+import addNewTask from "../../../utils/Api/addNewTask";
 
 interface completeTaskProps {
   title: string;
   id: number | undefined;
-  doneTask: string;
   description: string;
+  token: string;
+};
+
+interface addTaskProps {
+  newTask: TaskProps;
   token: string;
 };
 
@@ -26,12 +31,24 @@ const tasksSlice = createSlice({
   initialState,
   reducers: {
     fetchTasks: ( state, { payload }: PayloadAction<TaskProps[]> ) => {
-      return payload;
+      state = payload;
+
+      return state;
+    },
+    addTaskReducer: ( state, { payload }: PayloadAction<addTaskProps>) => {
+      const { newTask, token } = payload;
+      state.push( newTask );
+      addNewTask(newTask, token);
+
+      return state;
     },
     completeTaskReducer: ( state, { payload }: PayloadAction<completeTaskProps> ) => {
-      const { doneTask, id: user_id , title, description, token } = payload;
+      const { id: user_id , title, description, token } = payload;
+
+      let doneTask: string = '';
       state.map(item => {
-        if(item.title === title && item.user_id === user_id) {
+        doneTask = String( item.done == '0' && '1' || item.done == '1' && '0');
+        if (item.title === title && item.user_id === user_id) {
           item.done = doneTask;
         };
 
@@ -41,9 +58,11 @@ const tasksSlice = createSlice({
 
       return state;
     },
+
   }
 });
 
 export const { fetchTasks } = tasksSlice.actions;
+export const { addTaskReducer } = tasksSlice.actions;
 export const { completeTaskReducer } = tasksSlice.actions;
 export default tasksSlice.reducer;
