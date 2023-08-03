@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Container, Image } from './style';
 import { Header } from '../../components/Home';
-import IMG from '../../assets/img-todo.svg';
+import IMG from '../../assets/space-icon.svg';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../lib/redux/reducer';
 import Task from '../../components/Task';

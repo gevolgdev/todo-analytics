@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import SPACE_IMAGE from '../../assets/background-space.jpg';
 
 export const Container = styled.div`
   display: flex;
@@ -20,11 +21,26 @@ export const Container = styled.div`
 
 export const Image = styled.div`
   display: flex;
-  background: rgb(64, 123, 255, 0.3);
+  background-image: url(${SPACE_IMAGE});
+  background-position: center;
+  background-size: cover;
+  position: relative;
   justify-content: center;
-  padding: 1rem 0;
-
+  padding: 0.5rem 0;
+  
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(64, 123, 255, 0.5);
+    z-index: 0;
+  }
   img {
-    width: 200px;
+    width: 250px;
+    position: relative;
+    z-index: 1;
   }
 `;
