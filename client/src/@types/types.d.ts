@@ -1,3 +1,5 @@
+export type EventProps = React.ChangeEvent<HTMLInputElement | HTMLSelectElement>;
+
 export interface UserProps {
   id?: number;
   email: string;
@@ -18,7 +20,7 @@ export interface TaskProps {
 };
 
 export interface NewTaskProps {
-  id?: number;
+  id: number;
   title: string;
   description: string;
   date: string;
