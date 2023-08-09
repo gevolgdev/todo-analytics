@@ -43,4 +43,19 @@ export const Image = styled.div`
     position: relative;
     z-index: 1;
   }
+
+  .menuButton {
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    font-size: 1.3rem;
+    border-radius: 100px;
+  }
 `;
