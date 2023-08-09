@@ -19,10 +19,17 @@ const userSlice = createSlice({
         ...state,
         ...payload,
       };
+
       return newState;
-    }
+    },
+    logOut: (state, { payload }: PayloadAction<boolean>) => {
+      state.isAuthenticated = payload;
+
+      return state;
+    },
   }
 });
 
-export default userSlice.reducer;
 export const { setData } = userSlice.actions;
+export const { logOut } = userSlice.actions;
+export default userSlice.reducer;
