@@ -5,7 +5,7 @@ import { RootState } from '../../../lib/redux/reducer';
 import { FaRegLightbulb } from 'react-icons/fa';
 import { addTaskReducer } from '../../../lib/redux/slices/tasksSlice';
 import { NewTaskProps } from '../../../@types/types';
-import fetchUserTasks from '../../../utils/Api/fetchUserTasks';
+import fetchUserTasks from '../../../utils/Api/tasks/fetchUserTasks';
 
 interface TaskFormProps {
   setOpenForm: React.Dispatch<SetStateAction<boolean>>;
@@ -14,10 +14,11 @@ interface TaskFormProps {
 const NewTaskForm: React.FC<TaskFormProps> = ({ setOpenForm }) => {
 
   const { id, token } = useSelector(( state: RootState ) => state.userSlice);
+  const userId: number = id ? id : 0;
   const date: string = new Date().toLocaleDateString();
   const Dispatch = useDispatch();
 
-  const INITIAL_STATE = { id: id, title: '', description: '', date: date, done: '0' };
+  const INITIAL_STATE = { id: userId, title: '', description: '', date: date, done: '0' };
   const [newTask, setNewTask] = useState<NewTaskProps>(INITIAL_STATE);
 
   const saving = (e: ChangeEvent<HTMLInputElement>) => {
