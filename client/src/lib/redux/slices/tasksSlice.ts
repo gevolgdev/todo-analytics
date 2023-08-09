@@ -1,9 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { DeleteTaskProps, EditTaskProps, TaskProps, addTaskProps, completeTaskProps } from "../../../@types/types";
-import completeTask from "../../../utils/Api/completeTask";
-import addNewTask from "../../../utils/Api/addNewTask";
-import editTasks from "../../../utils/Api/editTask";
-import deleteTask from "../../../utils/Api/deleteTask";
+import completeTask from "../../../utils/Api/tasks/completeTask";
+import addNewTask from "../../../utils/Api/tasks/addNewTask";
+import editTasks from "../../../utils/Api/tasks/editTask";
+import deleteTask from "../../../utils/Api/tasks/deleteTask";
 
 const initialState: TaskProps[] = [
   {
@@ -25,6 +25,8 @@ const tasksSlice = createSlice({
 
       return state;
     },
+
+
     addTaskReducer: ( state, { payload }: PayloadAction<addTaskProps>) => {
       const { newTask, token } = payload;
       state.push( newTask );
@@ -32,6 +34,8 @@ const tasksSlice = createSlice({
 
       return state;
     },
+
+
     completeTaskReducer: ( state, { payload }: PayloadAction<completeTaskProps> ) => {
       const { id: user_id , title, description, token } = payload;
 
@@ -48,6 +52,8 @@ const tasksSlice = createSlice({
 
       return state;
     },
+
+
     editTaskReducer: (state, { payload }: PayloadAction<EditTaskProps>) => {
       const { title, description, user_id, task_id, token } = payload;
       state.map(item => {
@@ -61,6 +67,8 @@ const tasksSlice = createSlice({
 
       editTasks({ title, description, user_id, task_id }, token);
     },
+
+
     deleteTaskReducer: (state, { payload }: PayloadAction<DeleteTaskProps>) => {
       const { task_id, token } = payload;
       const index = state.findIndex(item => item.id === task_id);
@@ -73,6 +81,8 @@ const tasksSlice = createSlice({
       
       deleteTask({ task_id }, token);
     },
+
+
   }
 });
 
