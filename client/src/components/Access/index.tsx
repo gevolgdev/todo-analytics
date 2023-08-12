@@ -16,7 +16,7 @@ const Access: React.FC<AccessProps> = ({ isLogin = false, isRegister = false }) 
 
   let access: string = String(isLogin && 'Entrar' || isRegister && 'Registrar');
 
-  const handleClick = () => {
+  const handleEnter = () => {
     isLogin && login(infos.email, infos.password);
     isRegister && register(infos.name, infos.email, infos.password);
 
@@ -52,7 +52,7 @@ const Access: React.FC<AccessProps> = ({ isLogin = false, isRegister = false }) 
       {isLogin && <Links to={'/register'}>Não tem uma conta? <strong>Crie uma!</strong></Links>}
       {isRegister && <Links to={'/login'}>Já tem uma conta? <strong>Entre aqui!</strong></Links>}
 
-      <button onClick={ handleClick } className='enter'>{ access }</button>
+      <button onClick={ handleEnter } className='enter'>{ access }</button>
     </Container>
   )
 };
