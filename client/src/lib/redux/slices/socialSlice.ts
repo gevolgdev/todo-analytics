@@ -8,7 +8,8 @@ const initialState: UserProps[] = [
     name: '',
     password: '',
     token: '',
-    isAuthenticated: false
+    isAuthenticated: false,
+    friends: [],
   }
 ];
 
