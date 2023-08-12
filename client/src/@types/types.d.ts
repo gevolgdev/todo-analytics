@@ -7,6 +7,7 @@ export interface UserProps {
   password: string;
   token: string;
   isAuthenticated: boolean;
+  friends: number[];
 };
 
 export interface TaskProps {
