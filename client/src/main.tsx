@@ -14,6 +14,11 @@ const AuthenticatedRoute = () => {
   return isAuthenticated ? <Home/> : <Register/>
 };
 
+const AuthenticatedRouteSocial = () => {
+  const isAuthenticated = useSelector(( state: RootState ) => state.userSlice.isAuthenticated);
+  return isAuthenticated ? <Social/> : <Login/>
+};
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -33,7 +38,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/social',
-        element: <Social/>
+        element: <AuthenticatedRouteSocial/>
       },
     ]
   }
