@@ -8,6 +8,7 @@ const initialState: UserProps = {
   password: '',
   token: '',
   isAuthenticated: false,
+  friends: [],
 };
 
 const userSlice = createSlice({
@@ -27,9 +28,15 @@ const userSlice = createSlice({
 
       return state;
     },
+    addFriend: (state, { payload }: PayloadAction<number>) => {
+      state.friends.push( payload );
+
+      return state;
+    },
   }
 });
 
 export const { setData } = userSlice.actions;
 export const { logOut } = userSlice.actions;
+export const { addFriend } = userSlice.actions;
 export default userSlice.reducer;
